@@ -19,11 +19,11 @@ const useStyles = makeStyles({
     fontSize: "24px",
   },
   card: {
-    height: "200px", // Set a fixed height for all the cards
+    height: "200px", 
     maxWidth: 345,
     borderRadius: "5px",
     color: "white",
-    background: "linear-gradient(to bottom, #000000, #2196F3)", // Gradient of blue and black
+    background: "linear-gradient(to bottom, #000000, #2196F3)", 
     transition: "transform 0.3s",
     "&:hover": {
       transform: "scale(1.05)",
@@ -44,11 +44,11 @@ const Dashboard = () => {
   const classes = useStyles();
 
   const redirectToGraphResults = () => {
-    window.location.href = "./graphs"; // Replace "xyz" with the URL for graph results
+    window.location.href = "./graphs"; 
   };
 
   const redirectToAnotherPage = () => {
-    window.location.href = "./model_results"; // Replace "abc" with the URL for the other page
+    window.location.href = "./model_results"; 
   };
 
   return (
