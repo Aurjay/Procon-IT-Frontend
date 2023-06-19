@@ -4,9 +4,10 @@ import { LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid } from 'recharts'
 
 const GraphPage = () => {
   const [data, setData] = useState([]);
+  const [plotImage, setPlotImage] = useState('');
 
   useEffect(() => {
-    const fetchData = () => {
+    const fetchData = async () => {
       const newData = [
         { x: 6471, y: 305.0301567850639 },
         { x: 6478, y: 302.53607956209834 },
@@ -129,10 +130,17 @@ const GraphPage = () => {
         { x: 7701, y: 321.20821755958 },
         { x: 7718, y: 317.6870841174272 },
         { x: 7672, y: 321.59530368380086 },
-
-
       ];
       setData(newData);
+
+      try {
+        const response = await fetch('/api/plot');
+        const blob = await response.blob();
+        const objectURL = URL.createObjectURL(blob);
+        setPlotImage(objectURL);
+      } catch (error) {
+        console.error('Error fetching plot image:', error);
+      }
     };
 
     fetchData();
@@ -151,6 +159,14 @@ const GraphPage = () => {
           <Tooltip />
           <Line type="monotone" dataKey="y" stroke="#8884d8" />
         </LineChart>
+        {plotImage && (
+          <div>
+            <Typography variant="h6" component="h2">
+              Plot
+            </Typography>
+            <img src={plotImage} alt="Plot" />
+          </div>
+        )}
       </CardContent>
     </Card>
   );
