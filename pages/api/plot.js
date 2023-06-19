@@ -1,5 +1,5 @@
 /*
-The `plot.js` module is responsible for fetching a plot image from an S3 bucket and 
+The `plot.js` module is responsible for fetching a plot image from a S3 bucket and 
 returning it as a response in an API endpoint. It utilizes the AWS SDK to interact 
 with the S3 service and retrieve the image file specified by the bucket name and key. 
 The module sets the appropriate content type header for the image and sends it as the 
