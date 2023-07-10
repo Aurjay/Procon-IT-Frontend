@@ -51,7 +51,7 @@ export default function Home() {
 
       setIsLoading(true);
 
-      const response = await axios.post("http://127.0.0.1:5000/predict", formData);
+      const response = await axios.post("https://procon-it-image-4t2r2e6xka-ey.a.run.app/predict", formData);
 
       const data = response.data;
       console.log("Data received from server:", data);
