@@ -51,7 +51,7 @@ export default function Home() {
       <Card className={classes.root}>
         <CardContent>
           <Typography variant="h5" component="h2" gutterBottom>
-            Model results 
+            Model results Demo
           </Typography>
           <Typography variant="body2" color="textSecondary" gutterBottom>
             The results are inferenced on a Model trained on Dataset from Transistor_3
