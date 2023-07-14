@@ -6,6 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
@@ -22,39 +23,21 @@ const useStyles = makeStyles({
     alignItems: "center",
     height: "100%",
   },
+  resultCard: {
+    marginTop: 20,
+  },
 });
 
 export default function Home() {
   const classes = useStyles();
-  const [file, setFile] = useState(null);
   const [results, setResults] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleFileChange = (event) => {
-    const selectedFile = event.target.files[0];
-    setFile(selectedFile);
-  };
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    if (!file) {
-      console.error("No file selected");
-      return;
-    }
-
+  const fetchResults = async () => {
     try {
-      const formData = new FormData();
-      formData.append("file", file);
-
-      console.log("Data being sent to server:", formData);
-
       setIsLoading(true);
-
-      const response = await axios.post("https://procon-it-image-4t2r2e6xka-ey.a.run.app/predict", formData);
-
+      const response = await axios.post("https://procon-it-image-v6-4t2r2e6xka-uc.a.run.app/predict");
       const data = response.data;
-      console.log("Data received from server:", data);
       setResults(data);
     } catch (error) {
       console.error("Error:", error);
@@ -68,25 +51,26 @@ export default function Home() {
       <Card className={classes.root}>
         <CardContent>
           <Typography variant="h5" component="h2" gutterBottom>
-            Predictions
+            Model results 
           </Typography>
-          <form onSubmit={handleSubmit}>
-            <input
-              type="file"
-              accept=".csv"
-              onChange={handleFileChange}
-              multiple={false}
-            />
-            <button type="submit">Submit</button>
-          </form>
+          <Typography variant="body2" color="textSecondary" gutterBottom>
+            The results are inferenced on a Model trained on Dataset from Transistor_3
+          </Typography>
+          <Button variant="contained" color="primary" onClick={fetchResults}>
+            Fetch Results
+          </Button>
+        </CardContent>
+      </Card>
 
+      <Card className={classes.resultCard}>
+        <CardContent>
           {isLoading ? (
             <Box className={classes.loading}>
               <CircularProgress />
             </Box>
           ) : (
-            results && Object.keys(results).length > 0 && (
-              <Box mt={4}>
+            results && (
+              <Box>
                 <Typography variant="h6" component="h3" gutterBottom>
                   Results:
                 </Typography>
@@ -102,18 +86,6 @@ export default function Home() {
                 <Typography gutterBottom>
                   Root Mean Squared Error: {results.root_mean_squared_error}
                 </Typography>
-                {results.predictions && (
-                  <>
-                    <Typography variant="h6" component="h3" gutterBottom>
-                      Predictions:
-                    </Typography>
-                    <ul>
-                      {results.predictions.map((prediction, index) => (
-                        <li key={index}>{prediction}</li>
-                      ))}
-                    </ul>
-                  </>
-                )}
               </Box>
             )
           )}
