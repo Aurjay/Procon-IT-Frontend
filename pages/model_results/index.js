@@ -8,6 +8,11 @@ import Box from "@material-ui/core/Box";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
 
 const useStyles = makeStyles({
   root: {
@@ -25,6 +30,10 @@ const useStyles = makeStyles({
   },
   resultCard: {
     marginTop: 20,
+  },
+  statusMax: {
+    color: "red",
+    fontWeight: "bold",
   },
 });
 
@@ -54,7 +63,7 @@ export default function Home() {
             Model results Demo
           </Typography>
           <Typography variant="body2" color="textSecondary" gutterBottom>
-            The results are inferenced on a Model trained on Dataset from Transistor_3
+            The results are inferred on a Model trained on Dataset from Transistor_3
           </Typography>
           <Button variant="contained" color="primary" onClick={fetchResults}>
             Fetch Results
@@ -74,18 +83,74 @@ export default function Home() {
                 <Typography variant="h6" component="h3" gutterBottom>
                   Results:
                 </Typography>
-                <Typography gutterBottom>
-                  Mean Absolute Error: {results.mean_absolute_error}
-                </Typography>
-                <Typography gutterBottom>
-                  Mean Squared Error: {results.mean_squared_error}
-                </Typography>
-                <Typography gutterBottom>
-                  R-squared: {results.r_squared}
-                </Typography>
-                <Typography gutterBottom>
-                  Root Mean Squared Error: {results.root_mean_squared_error}
-                </Typography>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>
+                        <Typography variant="subtitle1" className={classes.statusMax}>
+                          Metric
+                        </Typography>
+                      </TableCell>
+                      <TableCell>
+                        <Typography variant="subtitle1">Value</Typography>
+                      </TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    <TableRow>
+                      <TableCell>
+                        <Typography variant="body1">Mean Absolute Error</Typography>
+                      </TableCell>
+                      <TableCell>
+                        <Typography variant="body1">{results.metrics.mean_absolute_error}</Typography>
+                      </TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>
+                        <Typography variant="body1">Mean Squared Error</Typography>
+                      </TableCell>
+                      <TableCell>
+                        <Typography variant="body1">{results.metrics.mean_squared_error}</Typography>
+                      </TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>
+                        <Typography variant="body1">R-squared</Typography>
+                      </TableCell>
+                      <TableCell>
+                        <Typography variant="body1">{results.metrics.r_squared}</Typography>
+                      </TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>
+                        <Typography variant="body1">Root Mean Squared Error</Typography>
+                      </TableCell>
+                      <TableCell>
+                        <Typography variant="body1">{results.metrics.root_mean_squared_error}</Typography>
+                      </TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>
+                        <Typography variant="body1" className={classes.statusMax}>
+                          Status
+                        </Typography>
+                      </TableCell>
+                      <TableCell>
+                        <Typography variant="body1" className={classes.statusMax}>
+                          {results.status}
+                        </Typography>
+                      </TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>
+                        <Typography variant="body1">Time to Failure (Days)</Typography>
+                      </TableCell>
+                      <TableCell>
+                        <Typography variant="body1">{results.time_to_failure}</Typography>
+                      </TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
               </Box>
             )
           )}
